@@ -32,7 +32,7 @@ const handler = NextAuth({
             email: profile.email,
             //this replace is for replacing spaced names to no spaced names
             username: profile.name.replace(" ", "").toLowerCase(),
-            image: profile.image,
+            image: profile.picture,
           });
         }
         return true;
