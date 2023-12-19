@@ -2,16 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Profile from "@components/Profile";
 
 const MyProfile = () => {
   const { data: session } = useSession();
-  //   const router = useRouter();
+  const router = useRouter();
   const [post, setPost] = useState([]);
-
-  const handleEdit = async () => {};
-  const handleDelete = async () => {};
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -20,8 +17,29 @@ const MyProfile = () => {
 
       setPost(data);
     };
-    fetchPost();
-  }, []);
+    if (session?.user.id) {
+      fetchPost();
+    }
+  }, [post]);
+
+  const handleEdit = async (posts) => {
+    router.push(`/update-post?id=${posts._id}`);
+  };
+
+  const handleDelete = async (posts) => {
+    const hasConfirmed = confirm(
+      "Are you sure , you want to delete this post? "
+    );
+    if (hasConfirmed) {
+      try {
+        await fetch(`api/prompt/${posts._id.toString()}`, {
+          method: "DELETE",
+        });
+      } catch (error) {
+        console.log("err in handle delete function", error);
+      }
+    }
+  };
 
   return (
     <Profile
