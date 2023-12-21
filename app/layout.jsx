@@ -4,7 +4,7 @@ import Nav from "@components/Nav";
 import Provider from "@components/Provider";
 //creating metadata
 export const metadata = {
-  title: "My Demo App",
+  title: "AI powered Post",
   description: "Discover and share Ai prompts",
 };
 
